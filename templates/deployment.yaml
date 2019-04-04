@@ -23,6 +23,10 @@ spec:
       labels:
         run: nginx
     spec:
+      volumes:
+      - name: task-pv-storage
+        persistentVolumeClaim:
+          claimName: nginx-pvc  
       containers:
       - image: nginx:latest
         imagePullPolicy: IfNotPresent
@@ -30,6 +34,9 @@ spec:
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: nginx-pv-storage
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
